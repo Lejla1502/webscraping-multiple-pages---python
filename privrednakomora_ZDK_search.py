@@ -37,18 +37,30 @@ submitBtn.click()
 #-------------------------------------------ACCORDION---------------------------------
 item_to_be_clicked=driver.find_elements('xpath','//div[@class="rt-accordion-item"]')
 
+#defining lists of the things we want to extract
 listNamesCompanies=[]
+listDjelatnosti=[]
+listCities=[]
+listPhoneNumbs=[]
+listMobileNumbs=[]
+
 for item in item_to_be_clicked:
     item.click()
-    time.sleep(2)
-    ttl=item.find_element(By.TAG_NAME, "p")
-    listNamesCompanies.append(ttl)
+    #ttl=item.find_element(By.CSS_SELECTOR, "p")
+    #listNamesCompanies.append(ttl)
+    listParagraphs=item.find_elements(By.CSS_SELECTOR, ".content p")
+    listNamesCompanies.append(listParagraphs[1].text)
+    listDjelatnosti.append(listParagraphs[4].text)
+    listParagraphsAddress=listParagraphs[5].find_elements(By.TAG_NAME, "strong")
+    listCities.append(listParagraphsAddress[1].text)
+    listPhoneNumbs.append(listParagraphsAddress[2].text)
+    listMobileNumbs.append(listParagraphsAddress[4].text)
     #title=driver.find_element('xpath','//div[@class="content"]/p[2]')
-    print(ttl.text)
+    #print(ttls[2].text)
     # WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.XPATH, '//div[@class="rt-accordion-item]'))).click()
 
-for lc in listNamesCompanies:
-    print(lc.text)
+for lc in listCities:
+    print(lc)
 
 # accorddionLinks=driver.find_elements('xpath','//p[@class="title"]')
 # for cl in accorddionLinks:
