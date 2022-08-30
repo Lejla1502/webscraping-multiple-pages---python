@@ -1,11 +1,21 @@
 from selenium import webdriver
 import time
 from selenium.webdriver.support.select import Select
+from selenium.webdriver.chrome.options import Options
+
+
+#download Python (this is interpreter) --> version 3.9 needed
+#download chromedriver
+#install Python extension in VS Code
+#python -m ensurepip
+#install packages with pip in terminal
 
 #define Chrome driver -- first download Chrome webdriver based on the version of Chrome
 #Link : https://chromedriver.chromium.org/downloads
 
-driver=webdriver.Chrome(executable_path='C:\\Users\\Administrator\\Downloads\\webdrivers\\chromedriver.exe')
+
+
+driver=webdriver.Chrome( executable_path='C:\\Users\\User\\Downloads\\webdrivers\\chromedriver.exe')
 
 #define from which web page we're scraping
 driver.get('https://www.jobsite.co.uk/')
@@ -48,4 +58,13 @@ time.sleep(1)
 
 submitBtn=driver.find_element("xpath",'//input[@Value="Search"]')
 submitBtn.click()
+
+#getting three layers deep to get that title list
+titles= driver.find_element("xpath",'//div[@class="sc-fzooss kBgtGS"]/a/h2')
+
+print(titles)
+# size=len(titles)
+# print(size)
+# for title in titles:
+#     print(title.text)
 
