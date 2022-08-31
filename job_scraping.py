@@ -81,8 +81,23 @@ print(len(published))
 print(len(salaries))
 print(len(job_details))
     
-#mode is append, because we are appending list elements to the file
-with open('job_scraping.csv','a', encoding='utf-8-sig') as file:
-    for i in range(len(titles)):
-        file.write(titles[i].text+ ";" + locations[i].text + ";" + salaries[i].text + ";" + companies[i].text + ";" + job_details[i].text + '\n')
-    
+#specifying number of pages we're scraping from (from pagination)
+for i in range(3):
+    titles=driver.find_elements("xpath",'//div[@class="sc-fzooss kBgtGS"]/a/h2') 
+
+    locations=driver.find_elements("xpath", "//li[@class='sc-fznXWL hSqkJy']")
+
+    published=driver.find_elements("xpath","//li[@class='sc-fznXWL jwFgqb']")
+
+    salaries=driver.find_elements("xpath","//dl[@class='sc-fzoJMP jpodhy']")
+
+    companies=driver.find_elements("xpath", "//div[@class='sc-fzoiQi kuzZTz']")
+
+    job_details=driver.find_elements("xpath", "//a[@data-offer-meta-text-snippet-link='true']")
+    #mode is append, because we are appending list elements to the file
+    with open('job_scraping.csv','a', encoding='utf-8-sig') as file:
+        for i in range(len(titles)):
+            file.write(titles[i].text+ ";" + locations[i].text + ";" + salaries[i].text + ";" + companies[i].text + ";" + job_details[i].text + '\n')
+        next=driver.find_element("xpath", "//a[@data-at='pagination-next']")
+        next.click()
+    file.close()
