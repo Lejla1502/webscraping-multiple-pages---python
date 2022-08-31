@@ -15,7 +15,9 @@ from selenium.webdriver.chrome.options import Options
 
 
 
-driver=webdriver.Chrome( executable_path='C:\\Users\\User\\Downloads\\webdrivers\\chromedriver.exe')
+#driver=webdriver.Chrome( executable_path='C:\\Users\\User\\Downloads\\webdrivers\\chromedriver.exe')
+driver=webdriver.Chrome(executable_path='C:\\Users\\\Administrator\\Downloads\\webdrivers\\chromedriver.exe')
+
 
 #define from which web page we're scraping
 driver.get('https://www.jobsite.co.uk/')
@@ -32,7 +34,6 @@ try:
     cookie.click()
 except:
     pass
-
 
 
 #we need to simulate the steps we would make on the page when doing the search
