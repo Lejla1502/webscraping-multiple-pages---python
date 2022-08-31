@@ -46,12 +46,17 @@ listMobileNumbs=[]
 
 for item in item_to_be_clicked:
     item.click()
+    time.sleep(2)
     #ttl=item.find_element(By.CSS_SELECTOR, "p")
     #listNamesCompanies.append(ttl)
     listParagraphs=item.find_elements(By.CSS_SELECTOR, ".content p")
     listNamesCompanies.append(listParagraphs[1].text)
     listDjelatnosti.append(listParagraphs[4].text)
-    listParagraphsAddress=listParagraphs[5].find_elements(By.TAG_NAME, "strong")
+    listParagraphsAddress=listParagraphs[5].find_elements(By.CSS_SELECTOR, "p strong")
+    print(listParagraphsAddress[0].text)
+    print(listParagraphsAddress[1].text)
+    print(listParagraphsAddress[2].text)
+    print(listParagraphsAddress[3].text)
     listCities.append(listParagraphsAddress[1].text)
     listPhoneNumbs.append(listParagraphsAddress[2].text)
     listMobileNumbs.append(listParagraphsAddress[4].text)
