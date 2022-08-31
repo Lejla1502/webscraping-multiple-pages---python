@@ -13,7 +13,10 @@ from selenium.webdriver.chrome.options import Options
 #define Chrome driver -- first download Chrome webdriver based on the version of Chrome
 #Link : https://chromedriver.chromium.org/downloads
 
-
+#declaring in which csv file we're inputing data
+#the second parameter is the mode we want to work with - here we chose writing and adding
+with open('job_scraping.csv','w', encoding='utf-8-sig') as file:
+    file.write("Job_title; Location; Salary; Company_name; Job_description \n")
 
 #driver=webdriver.Chrome( executable_path='C:\\Users\\User\\Downloads\\webdrivers\\chromedriver.exe')
 driver=webdriver.Chrome(executable_path='C:\\Users\\\Administrator\\Downloads\\webdrivers\\chromedriver.exe')
@@ -70,11 +73,16 @@ salaries=driver.find_elements("xpath","//dl[@class='sc-fzoJMP jpodhy']")
 
 companies=driver.find_elements("xpath", "//div[@class='sc-fzoiQi kuzZTz']")
 
-descriptions=driver.find_elements("xpath", "//*[@class='Wrapper-sc-11673k2-0 eHVkAX']/article/div[3]/div[6]/a")
-for d in descriptions:
-    print(d.text)
-# size=len(titles)
-# print(size)
-# for title in titles:
-#     print(title.text)
+job_details=driver.find_elements("xpath", "//a[@data-offer-meta-text-snippet-link='true']")
 
+
+print(len(locations))
+print(len(published))
+print(len(salaries))
+print(len(job_details))
+    
+#mode is append, because we are appending list elements to the file
+with open('job_scraping.csv','a', encoding='utf-8-sig') as file:
+    for i in range(len(titles)):
+        file.write(titles[i].text+ ";" + locations[i].text + ";" + salaries[i].text + ";" + companies[i].text + ";" + job_details[i].text + '\n')
+    
