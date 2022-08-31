@@ -48,13 +48,13 @@ time.sleep(1)
 location=driver.find_element("id","location")
 location.click()
 location.send_keys('Manchester')
-time.sleep(1)
+
 
 
 dropdown=driver.find_element('id','Radius')
 radius=Select(dropdown)
 radius.select_by_visible_text("30 miles")
-time.sleep(1)
+
 
 
 submitBtn=driver.find_element("xpath",'//input[@Value="Search"]')
@@ -64,8 +64,10 @@ time.sleep(6)
 #getting three layers deep to get that title list
 titles=driver.find_elements("xpath",'//div[@class="sc-fzooss kBgtGS"]/a/h2') 
 
-for title in titles:
-    print(title.text)
+locations=driver.find_elements("xpath", "//li[@class='sc-fznXWL hSqkJy']")
+
+for loc in locations:
+    print(loc.text)
 # size=len(titles)
 # print(size)
 # for title in titles:
