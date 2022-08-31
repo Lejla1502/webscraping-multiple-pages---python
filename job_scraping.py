@@ -50,11 +50,9 @@ location.click()
 location.send_keys('Manchester')
 
 
-
 dropdown=driver.find_element('id','Radius')
 radius=Select(dropdown)
 radius.select_by_visible_text("30 miles")
-
 
 
 submitBtn=driver.find_element("xpath",'//input[@Value="Search"]')
@@ -66,8 +64,15 @@ titles=driver.find_elements("xpath",'//div[@class="sc-fzooss kBgtGS"]/a/h2')
 
 locations=driver.find_elements("xpath", "//li[@class='sc-fznXWL hSqkJy']")
 
-for loc in locations:
-    print(loc.text)
+published=driver.find_elements("xpath","//li[@class='sc-fznXWL jwFgqb']")
+
+salaries=driver.find_elements("xpath","//dl[@class='sc-fzoJMP jpodhy']")
+
+companies=driver.find_elements("xpath", "//div[@class='sc-fzoiQi kuzZTz']")
+
+descriptions=driver.find_elements("xpath", "//*[@class='Wrapper-sc-11673k2-0 eHVkAX']/article/div[3]/div[6]/a")
+for d in descriptions:
+    print(d.text)
 # size=len(titles)
 # print(size)
 # for title in titles:
