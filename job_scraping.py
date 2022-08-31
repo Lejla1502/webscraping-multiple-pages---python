@@ -60,10 +60,12 @@ time.sleep(1)
 submitBtn=driver.find_element("xpath",'//input[@Value="Search"]')
 submitBtn.click()
 
+time.sleep(6)
 #getting three layers deep to get that title list
-titles= driver.find_element("xpath",'//div[@class="sc-fzooss kBgtGS"]/a/h2')
+titles=driver.find_elements("xpath",'//div[@class="sc-fzooss kBgtGS"]/a/h2') 
 
-print(titles)
+for title in titles:
+    print(title.text)
 # size=len(titles)
 # print(size)
 # for title in titles:
