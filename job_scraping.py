@@ -19,7 +19,14 @@ from selenium.webdriver.chrome.options import Options
 with open('job_scraping_pager.csv','w', encoding='utf-8-sig') as file:
     file.write("Job_title; Location; Salary; Company_name; Job_description \n")
 
-driver=webdriver.Chrome( executable_path='C:\\Users\\User\\Downloads\\webdrivers\\chromedriver.exe')
+#pages can recognize selenium and deny access
+#we use options to workaround that blockage and be able to still scrape data we need
+options = webdriver.ChromeOptions()
+options.add_argument("start-maximized")
+options.add_argument('--disable-blink-features=AutomationControlled')
+options.add_experimental_option("excludeSwitches", ["enable-automation"])
+options.add_experimental_option('useAutomationExtension', False)
+driver=webdriver.Chrome(options=options, executable_path='C:\\Users\\User\\Downloads\\webdrivers\\chromedriver.exe')
 #driver=webdriver.Chrome(executable_path='C:\\Users\\\Administrator\\Downloads\\webdrivers\\chromedriver.exe')
 
 
@@ -91,7 +98,9 @@ for i in range(totalPages):
         for i in range(len(titles)):
             file.write(titles[i].text+ ";" + locations[i].text + ";" + salaries[i].text + ";" + companies[i].text + ";" + job_details[i].text + '\n')
         str_i=str(needed_page)                   #"//a[@data-at='pagination-page-link pagination-page-link-2]"
+        print(str_i)
         btn=driver.find_element("xpath","//a[@data-at='pagination-page-link pagination-page-link-"+str_i+"']")
         btn.click()
+        time.sleep(2)
     file.close()
 driver.close()
