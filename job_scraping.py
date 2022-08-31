@@ -1,3 +1,4 @@
+from random import getrandbits
 from selenium import webdriver
 import time
 from selenium.webdriver.support.select import Select
@@ -15,11 +16,11 @@ from selenium.webdriver.chrome.options import Options
 
 #declaring in which csv file we're inputing data
 #the second parameter is the mode we want to work with - here we chose writing and adding
-with open('job_scraping.csv','w', encoding='utf-8-sig') as file:
+with open('job_scraping_pager.csv','w', encoding='utf-8-sig') as file:
     file.write("Job_title; Location; Salary; Company_name; Job_description \n")
 
-#driver=webdriver.Chrome( executable_path='C:\\Users\\User\\Downloads\\webdrivers\\chromedriver.exe')
-driver=webdriver.Chrome(executable_path='C:\\Users\\\Administrator\\Downloads\\webdrivers\\chromedriver.exe')
+driver=webdriver.Chrome( executable_path='C:\\Users\\User\\Downloads\\webdrivers\\chromedriver.exe')
+#driver=webdriver.Chrome(executable_path='C:\\Users\\\Administrator\\Downloads\\webdrivers\\chromedriver.exe')
 
 
 #define from which web page we're scraping
@@ -65,24 +66,14 @@ time.sleep(6)
 #getting three layers deep to get that title list
 titles=driver.find_elements("xpath",'//div[@class="sc-fzooss kBgtGS"]/a/h2') 
 
-locations=driver.find_elements("xpath", "//li[@class='sc-fznXWL hSqkJy']")
 
-published=driver.find_elements("xpath","//li[@class='sc-fznXWL jwFgqb']")
-
-salaries=driver.find_elements("xpath","//dl[@class='sc-fzoJMP jpodhy']")
-
-companies=driver.find_elements("xpath", "//div[@class='sc-fzoiQi kuzZTz']")
-
-job_details=driver.find_elements("xpath", "//a[@data-offer-meta-text-snippet-link='true']")
-
-
-print(len(locations))
-print(len(published))
-print(len(salaries))
-print(len(job_details))
-    
+elThatContainsTotal=driver.find_element("xpath","//div[@class='ResultsContainer-sc-1rtv0xy-2 dmSilN']")
+totalElNum=elThatContainsTotal.get_attribute("data-resultlist-offers-total")
+totalPages=round(int(totalElNum)/len(titles))
+#we need to round this to closest integer number so that we can loop through 
+print(totalPages)
 #specifying number of pages we're scraping from (from pagination)
-for i in range(3):
+for i in range(totalPages):
     titles=driver.find_elements("xpath",'//div[@class="sc-fzooss kBgtGS"]/a/h2') 
 
     locations=driver.find_elements("xpath", "//li[@class='sc-fznXWL hSqkJy']")
@@ -94,10 +85,13 @@ for i in range(3):
     companies=driver.find_elements("xpath", "//div[@class='sc-fzoiQi kuzZTz']")
 
     job_details=driver.find_elements("xpath", "//a[@data-offer-meta-text-snippet-link='true']")
+    needed_page=i+2
     #mode is append, because we are appending list elements to the file
-    with open('job_scraping.csv','a', encoding='utf-8-sig') as file:
+    with open('job_scraping_pager.csv','a', encoding='utf-8-sig') as file:
         for i in range(len(titles)):
             file.write(titles[i].text+ ";" + locations[i].text + ";" + salaries[i].text + ";" + companies[i].text + ";" + job_details[i].text + '\n')
-        next=driver.find_element("xpath", "//a[@data-at='pagination-next']")
-        next.click()
+        str_i=str(needed_page)                   #"//a[@data-at='pagination-page-link pagination-page-link-2]"
+        btn=driver.find_element("xpath","//a[@data-at='pagination-page-link pagination-page-link-"+str_i+"']")
+        btn.click()
     file.close()
+driver.close()
